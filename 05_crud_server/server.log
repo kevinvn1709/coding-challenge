@@ -1,0 +1,27 @@
+npm warn Unknown user config "python". This will stop working in the next major version of npm.
+🚀 Server is running on port 3000
+📊 Health check: http://localhost:3000/health
+👥 Users API: http://localhost:3000/api/users
+::1 - - [07/Aug/2025:02:28:05 +0000] "GET /health HTTP/1.1" 200 85 "-" "curl/8.7.1"
+::1 - - [07/Aug/2025:02:28:05 +0000] "GET / HTTP/1.1" 200 179 "-" "curl/8.7.1"
+::1 - - [07/Aug/2025:02:28:05 +0000] "GET /api/users HTTP/1.1" 200 89 "-" "curl/8.7.1"
+::1 - - [07/Aug/2025:02:28:05 +0000] "POST /api/users HTTP/1.1" 201 212 "-" "curl/8.7.1"
+::1 - - [07/Aug/2025:02:28:05 +0000] "POST /api/users HTTP/1.1" 201 216 "-" "curl/8.7.1"
+::1 - - [07/Aug/2025:02:28:05 +0000] "POST /api/users HTTP/1.1" 201 214 "-" "curl/8.7.1"
+::1 - - [07/Aug/2025:02:28:06 +0000] "GET /api/users HTTP/1.1" 200 547 "-" "curl/8.7.1"
+::1 - - [07/Aug/2025:02:28:06 +0000] "GET /api/users/1 HTTP/1.1" 200 174 "-" "curl/8.7.1"
+::1 - - [07/Aug/2025:02:28:06 +0000] "PUT /api/users/1 HTTP/1.1" 200 214 "-" "curl/8.7.1"
+::1 - - [07/Aug/2025:02:28:06 +0000] "GET /api/users?status=active HTTP/1.1" 200 394 "-" "curl/8.7.1"
+::1 - - [07/Aug/2025:02:28:06 +0000] "GET /api/users?name=John HTTP/1.1" 200 394 "-" "curl/8.7.1"
+::1 - - [07/Aug/2025:02:28:06 +0000] "GET /api/users?limit=2&offset=0 HTTP/1.1" 200 394 "-" "curl/8.7.1"
+::1 - - [07/Aug/2025:02:28:06 +0000] "DELETE /api/users/2 HTTP/1.1" 200 54 "-" "curl/8.7.1"
+::1 - - [07/Aug/2025:02:28:06 +0000] "GET /api/users/2 HTTP/1.1" 404 44 "-" "curl/8.7.1"
+::1 - - [07/Aug/2025:02:28:06 +0000] "POST /api/users HTTP/1.1" 400 50 "-" "curl/8.7.1"
+::1 - - [07/Aug/2025:02:28:06 +0000] "POST /api/users HTTP/1.1" 409 50 "-" "curl/8.7.1"
+::1 - - [07/Aug/2025:02:28:27 +0000] "GET /api/users/99 HTTP/1.1" 404 44 "-" "curl/8.7.1"
+::1 - - [07/Aug/2025:02:28:27 +0000] "POST /api/users HTTP/1.1" 400 50 "-" "curl/8.7.1"
+::1 - - [07/Aug/2025:02:28:39 +0000] "GET / HTTP/1.1" 200 179 "-" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36"
+::1 - - [07/Aug/2025:02:28:39 +0000] "GET /favicon.ico HTTP/1.1" 404 62 "-" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36"
+::1 - - [07/Aug/2025:02:29:06 +0000] "GET /health HTTP/1.1" 200 85 "-" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36"
+::1 - - [07/Aug/2025:02:29:06 +0000] "GET /health HTTP/1.1" 200 85 "-" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36"
+::1 - - [07/Aug/2025:02:29:06 +0000] "GET /health HTTP/1.1" 200 85 "-" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36"
