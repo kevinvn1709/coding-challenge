@@ -582,32 +582,6 @@ GET /health/detailed - Detailed component status
 - Set up automated alerting for security anomalies
 - Create admin dashboard for monitoring and management
 
-### Recommended Approach: Monolithic with NestJS Modules
-
-For the live scoreboard system, I recommend **Option 1 (Monolithic)** for the following reasons:
-
-1. **Scope Complexity**: The system has clear, tightly-coupled components
-2. **Team Size**: Likely < 10 developers initially
-3. **Performance**: Real-time features need low latency
-4. **Development Speed**: Faster to market with single codebase
-5. **Operational Simplicity**: Easier monitoring and deployment
-
-### Migration Path to Microservices
-
-When you reach these thresholds, consider migrating to microservices:
-- **Team Size**: > 10 developers
-- **Traffic**: > 10,000 concurrent users
-- **Different Scaling Needs**: WebSocket service needs more resources than auth
-- **Technology Requirements**: Need different tech stacks for different services
-
-```mermaid
-graph LR
-    A[MVP: Monolithic NestJS] --> B[Scale: Add Load Balancer]
-    B --> C[Extract: WebSocket Service]
-    C --> D[Extract: Score Service]
-    D --> E[Full Microservices]
-```
-
 ## Testing Strategy
 
 ### 1. Load Testing
