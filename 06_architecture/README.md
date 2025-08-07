@@ -45,6 +45,107 @@ The diagram demonstrates the security-first approach with multiple validation la
 - **Real-time**: WebSocket (Socket.IO) or Server-Sent Events
 - **Authentication**: JWT tokens with refresh mechanism
 
+### Sequence Diagram (Mermaid)
+```mermaid
+sequenceDiagram
+    participant U as User
+    participant WC as Web Client
+    participant LB as Load Balancer
+    participant AUTH as Auth Service
+    participant SCORE as Score Service
+    participant RATE as Rate Limiter
+    participant ANTI as Anti-Cheat Engine
+    participant DB as PostgreSQL
+    participant CACHE as Redis Cache
+    participant PUBSUB as Redis Pub/Sub
+    participant WS as WebSocket Service
+    participant AUDIT as Audit Logger
+
+    Note over U, AUDIT: Authentication Flow
+    U->>WC: 1. Login Request
+    WC->>LB: 2. POST /auth/login
+    LB->>AUTH: 3. Route to Auth Service
+    AUTH->>DB: 4. Validate Credentials
+    DB-->>AUTH: 5. User Data
+    AUTH->>DB: 6. Generate JWT Token
+    AUTH-->>LB: 7. Return JWT Token
+    LB-->>WC: 8. Return Token
+    WC-->>U: 9. Login Success
+
+    Note over U, AUDIT: WebSocket Connection
+    WC->>WS: 10. Connect with JWT
+    WS->>AUTH: 11. Validate JWT
+    AUTH-->>WS: 12. JWT Valid
+    WS->>PUBSUB: 13. Subscribe to score_updates
+    WS-->>WC: 14. Connection Established
+
+    Note over U, AUDIT: Action Token Generation
+    U->>WC: 15. Complete Game Action
+    WC->>LB: 16. POST /auth/action-token
+    LB->>AUTH: 17. Route with JWT
+    AUTH->>DB: 18. Generate Action Token
+    DB-->>AUTH: 19. Token Stored
+    AUTH-->>LB: 20. Return Action Token
+    LB-->>WC: 21. Action Token Response
+    WC-->>U: 22. Ready for Score Update
+
+    Note over U, AUDIT: Score Update Flow
+    U->>WC: 23. Submit Score
+    WC->>LB: 24. POST /scores/update (JWT + Action Token)
+    LB->>RATE: 25. Check Rate Limits
+    RATE->>CACHE: 26. Validate Rate Limits
+    CACHE-->>RATE: 27. Rate Limit OK
+    RATE->>SCORE: 28. Forward Request
+    
+    SCORE->>AUTH: 29. Validate Action Token
+    AUTH->>DB: 30. Check Token Validity
+    DB-->>AUTH: 31. Token Valid
+    AUTH-->>SCORE: 32. Token Approved
+    
+    SCORE->>ANTI: 33. Validate Score Pattern
+    ANTI->>DB: 34. Check User History
+    DB-->>ANTI: 35. Historical Data
+    ANTI-->>SCORE: 36. Validation Passed
+    
+    SCORE->>DB: 37. Begin Transaction
+    SCORE->>DB: 38. Update User Score
+    SCORE->>DB: 39. Mark Token as Used
+    SCORE->>DB: 40. Log Score Change
+    SCORE->>DB: 41. Commit Transaction
+    
+    SCORE->>CACHE: 42. Update Leaderboard Cache
+    SCORE->>PUBSUB: 43. Publish Score Update Event
+    SCORE->>AUDIT: 44. Log Security Event
+    
+    SCORE-->>LB: 45. Score Update Success
+    LB-->>WC: 46. Return New Score & Rank
+    WC-->>U: 47. Display Updated Score
+
+    Note over U, AUDIT: Real-time Broadcast
+    PUBSUB->>WS: 48. Score Update Event
+    WS->>WC: 49. Broadcast to All Clients
+    WC->>U: 50. Live Leaderboard Update
+
+    Note over U, AUDIT: Leaderboard Query
+    U->>WC: 51. Request Leaderboard
+    WC->>LB: 52. GET /leaderboard/top10
+    LB->>SCORE: 53. Route to Score Service
+    SCORE->>CACHE: 54. Check Cache First
+    
+    alt Cache Hit
+        CACHE-->>SCORE: 55a. Cached Data
+    else Cache Miss
+        SCORE->>DB: 55b. Query Database
+        DB-->>SCORE: 56b. Fresh Data
+        SCORE->>CACHE: 57b. Update Cache
+    end
+    
+    SCORE-->>LB: 58. Return Leaderboard
+    LB-->>WC: 59. Leaderboard Response
+    WC-->>U: 60. Display Leaderboard
+```
+
+
 ### Architecture Deployment Options
 
 #### Phase 1: Monolithic Architecture (for MVP)
